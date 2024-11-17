@@ -1,0 +1,30 @@
+@Override
+protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    // Retrieve or initialize cart for the session
+    Map<Integer, CartItem> sessionCart = (Map<Integer, CartItem>) req.getSession().getAttribute("cart");
+    if (sessionCart == null) {
+        sessionCart = new HashMap<>(); // Initialize a new cart if it doesn't exist
+        req.getSession().setAttribute("cart", sessionCart);
+    }
+    cartDAO.setItems(sessionCart); // Load existing cart items into DAO
+
+    // Get parameters
+    int menuId = Integer.parseInt(req.getParameter("id"));
+    int quantity = Integer.parseInt(req.getParameter("quantity"));
+    String image = req.getParameter("img");
+
+    MenuDAO menuDAO = new MenuDaoImpl();
+    Menu menu = menuDAO.getById(menuId);
+
+    // Create CartItem and add it to the cart via DAO
+    CartItem cartItem = new CartItem(menuId, menu.getRestaurantId(), menu.getMenuName(), quantity, menu.getPrice(), image);
+    cartDAO.addItem(cartItem);
+
+    // Store updated cart in session
+    req.getSession().setAttribute("cart", cartDAO.getItems());
+    req.getSession().setAttribute("itemAdded", true);  // Set the flag for item added
+    req.getSession().setAttribute("cartItemCount", cartDAO.getItems().size());
+
+    // Redirect to menu page
+    resp.sendRedirect("getMenu.jsp");
+}

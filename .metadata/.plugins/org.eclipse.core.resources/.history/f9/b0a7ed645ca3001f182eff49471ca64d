@@ -1,0 +1,101 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="javax.servlet.http.HttpSession" %>
+<%-- <%
+    // Retrieve the current session
+     session = request.getSession(false);
+    
+    if (session != null) {
+        // Remove each session attribute individually
+        java.util.Enumeration<String> sessionAttributes = session.getAttributeNames();
+        while (sessionAttributes.hasMoreElements()) {
+            String attributeName = sessionAttributes.nextElement();
+            session.removeAttribute(attributeName);
+        }
+        // Alternatively, you can invalidate the session to remove all attributes
+        // session.invalidate(); // This completely clears the session
+    }
+%> --%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #4CAF50; /* Green color */
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049; /* Darker green */
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form action="loginData" method="POST">
+            <label for="email">Email</label>
+            <input type="text" name="email" placeholder="Enter your email" required>
+
+            <label for="password">Password</label>
+            <input type="password" name="pwd" placeholder="Enter your password" required>
+
+            <input type="submit" value="Login">
+        </form>
+        <div class="footer">
+            <p>Don't have an account? <a href="register.jsp">Register here</a></p>
+        </div>
+    </div>
+</body>
+</html>

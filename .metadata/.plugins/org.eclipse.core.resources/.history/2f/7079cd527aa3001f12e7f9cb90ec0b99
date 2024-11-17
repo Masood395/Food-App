@@ -1,0 +1,5 @@
+package com.tap.orderhistorydao;
+
+public interface OrderHistoryDAO {
+
+}

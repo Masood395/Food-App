@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+D:\Food_APP\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+622003081.index
+239139723.index
+1686823044.index
+412527577.index
+3321862169.index
+3633084196.index

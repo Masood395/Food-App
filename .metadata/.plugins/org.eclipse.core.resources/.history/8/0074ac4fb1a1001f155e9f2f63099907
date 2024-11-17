@@ -1,0 +1,52 @@
+package com.tap.servlet.addcartcntrl;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.tap.cartdaoimpl.CartDAOImpl;
+import com.tap.cartitem.CartItem;
+import com.tap.menu.Menu;
+import com.tap.menudao.MenuDAO;
+import com.tap.menudaoimpl.MenuDaoImpl;
+
+
+@WebServlet("/addcartcntrl")
+public class AddCartCntrl extends HttpServlet {
+	
+	private Map<Integer, CartItem> cart;
+
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		cart = (Map<Integer, CartItem>) req.getSession().getAttribute("cart");
+		if(cart==null) {
+			this.cart = new HashMap<Integer, CartItem>();
+		}
+		
+		int menuid = Integer.parseInt(req.getParameter("id"));	
+		int quantity = Integer.parseInt(req.getParameter("quantity"));
+		String image = req.getParameter("img");
+		
+		MenuDAO mdaoi = new MenuDaoImpl();
+		Menu m = mdaoi.getById(menuid);
+		
+		CartItem ci = new CartItem(menuid,m.getRestaurantId(),m.getMenuName(),quantity,m.getPrice(),image);
+		
+		CartDAOImpl cdaoi = new CartDAOImpl();
+		cart = cdaoi.addItem(ci);
+		
+		req.getSession().setAttribute("cart", cart);
+		
+//		resp.sendRedirect("cart.jsp");
+		resp.sendRedirect("getMenu.jsp");
+		
+	}
+
+}

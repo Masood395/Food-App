@@ -1,0 +1,13 @@
+127.0.0.1 - - [10/Nov/2024:23:37:36 +0530] "GET / HTTP/1.1" 404 751
+0:0:0:0:0:0:0:1 - - [10/Nov/2024:23:37:37 +0530] "GET /FoodApp/Login.jsp HTTP/1.1" 200 2486
+0:0:0:0:0:0:0:1 - - [10/Nov/2024:23:37:37 +0530] "GET /favicon.ico HTTP/1.1" 404 762
+0:0:0:0:0:0:0:1 - - [10/Nov/2024:23:37:48 +0530] "POST /FoodApp/loginData HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [10/Nov/2024:23:37:48 +0530] "GET /FoodApp/loginfailure.jsp HTTP/1.1" 200 1650
+0:0:0:0:0:0:0:1 - - [10/Nov/2024:23:37:50 +0530] "GET /FoodApp/Login.jsp HTTP/1.1" 200 2486
+0:0:0:0:0:0:0:1 - - [10/Nov/2024:23:37:59 +0530] "POST /FoodApp/loginData HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [10/Nov/2024:23:37:59 +0530] "GET /FoodApp/getrestaurant HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [10/Nov/2024:23:37:59 +0530] "GET /FoodApp/home.jsp HTTP/1.1" 200 11219
+0:0:0:0:0:0:0:1 - - [10/Nov/2024:23:38:39 +0530] "GET /FoodApp/getmenu?id=1 HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [10/Nov/2024:23:38:39 +0530] "GET /FoodApp/getMenu.jsp HTTP/1.1" 200 11195
+0:0:0:0:0:0:0:1 - - [10/Nov/2024:23:39:55 +0530] "GET /FoodApp/getmenu?id=1 HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [10/Nov/2024:23:39:55 +0530] "GET /FoodApp/getMenu.jsp HTTP/1.1" 200 11195

@@ -1,0 +1,5 @@
+package com.tap.orderitemdao;
+
+public interface OrderItemDAO {
+
+}
