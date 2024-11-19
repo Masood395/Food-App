@@ -54,7 +54,34 @@
             color: #ff5722;
         }
 
-        /* Logout Icon */
+        /* Cart Icon (Left side) */
+        .cart-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #ff5722;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.2);
+            color: #e64a19;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 50%;
+            font-size: 14px;
+        }
+
+        /* Logout Icon (Right side) */
         .logout {
             position: absolute;
             top: 20px;
@@ -195,6 +222,10 @@
 <%
     List<Restaurant> rList = (List<Restaurant>) session.getAttribute("restaurantList");
     User user = (User) session.getAttribute("loggedInUser");
+    Integer cartItemCount = (Integer) session.getAttribute("cartItemCount"); // Assuming cartItemCount is stored in the session
+    if (cartItemCount == null) {
+        cartItemCount = 0; // Default value if no cart item count is found
+    }
 %>
 
 <header>
@@ -204,7 +235,14 @@
         <a href="#">About</a>
         <a href="#">Contact</a>
     </div>
-    <!-- Logout Icon -->
+
+    <!-- Cart Icon (Left side) -->
+    <a href="cart.jsp" class="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count"><%= cartItemCount %></span> <!-- Display the number of items in the cart -->
+    </a>
+
+    <!-- Logout Icon (Right side) -->
     <a href="logout" class="logout">
         <i class="fas fa-sign-out-alt"></i> Logout
     </a>

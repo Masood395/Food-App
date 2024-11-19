@@ -1,0 +1,370 @@
+<%-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Styling for the checkout form */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .checkout-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2em;
+            color: #3B5998;
+            margin-bottom: 20px;
+        }
+
+        .total-amount {
+            font-size: 1.5em;
+            color: #FF5722;
+            margin-bottom: 20px;
+        }
+
+        .payment-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+
+        .pay-button {
+            background: #28a745;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .pay-button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="checkout-container">
+    <h2>Payment</h2>
+    
+    <% 
+        // Retrieve the total amount from the session
+        Double total = (Double) session.getAttribute("cartTotal");
+        if (total == null) {
+            total = 0.0;
+        }
+    %>
+    
+    <div class="total-amount">Total Amount: $<%= String.format("%.2f", total) %></div>
+    
+    <form action="processPayment" method="post" class="payment-form">
+        <input type="text" name="cardNumber" placeholder="Card Number" required>
+        <input type="text" name="cardName" placeholder="Name on Card" required>
+        <input type="text" name="expiryDate" placeholder="Expiry Date (MM/YY)" required>
+        <input type="text" name="cvv" placeholder="CVV" required>
+        
+        <button type="submit" class="pay-button">Pay $<%= String.format("%.2f", total) %></button>
+    </form>
+</div>
+
+</body>
+</html>
+ --%>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+<%@ page import="com.tap.cartitem.CartItem" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            color: #333;
+        }
+
+        /* Header Styling */
+        header {
+            background: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        /* Container for Checkout */
+        .container {
+            max-width: 900px;
+            margin-top: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .table td, .table th {
+            text-align: center;
+        }
+
+        .form-section h2 {
+            color: #007bff;
+            margin-top: 30px;
+        }
+
+        .form-section {
+            padding-bottom: 20px;
+            border-bottom: 2px solid #007bff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-back {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+
+        .payment-method label {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .payment-method input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .payment-method i {
+            font-size: 1.5em;
+            margin-right: 15px;
+        }
+
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Checkout</h1>
+</header>
+
+<div class="container fade-in">
+    <!-- Order Summary -->
+    <div class="order-summary">
+        <h2>Order Summary</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
+                    double totalAmount = 0.0;
+
+                    if (cart != null && !cart.isEmpty()) {
+                        for (CartItem item : cart.values()) {
+                            double itemTotal = item.getPrice() * item.getQuantity();
+                            totalAmount += itemTotal;
+                %>
+                <tr>
+                    <td><%= item.getName() %></td>
+                    <td><%= item.getQuantity() %></td>
+                    <td>$<%= String.format("%.2f", itemTotal) %></td>
+                </tr>
+                <%
+                        }
+                    } else {
+                %>
+                <tr>
+                    <td colspan="3">Your cart is empty.</td>
+                </tr>
+                <%
+                    }
+                %>
+            </tbody>
+        </table>
+        <h3>Total Amount: $<%= String.format("%.2f", totalAmount) %></h3>
+    </div>
+
+    <!-- Back Button -->
+    <div class="mb-3">
+        <a href="home.jsp" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Shopping</a>
+    </div>
+
+    <!-- Shipping Information -->
+    <div class="form-section">
+        <h2>Shipping Information</h2>
+        <form action="placeOrder" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="firstName" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" name="phone" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" name="city" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="state">State:</label>
+                    <input type="text" id="state" name="state" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="zip">Zip Code:</label>
+                    <input type="text" id="zip" name="zip" class="form-control" required>
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <h2>Payment Method</h2>
+            <div class="payment-method">
+                <label>
+                    <input type="radio" name="paymentMethod" value="creditCard" required> 
+                    <i class="fab fa-cc-visa"></i> Credit Card
+                </label>
+                <label>
+                    <input type="radio" name="paymentMethod" value="debitCard"> 
+                    <i class="fab fa-cc-mastercard"></i> Debit Card
+                </label>
+                <label>
+                    <input type="radio" name="paymentMethod" value="paypal"> 
+                    <i class="fab fa-paypal"></i> PayPal
+                </label>
+            </div>
+
+            <input type="hidden" name="totalAmount" value="<%= String.format("%.2f", totalAmount) %>">
+            <button type="submit" class="btn btn-primary btn-lg">Place Order</button>
+        </form>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+ 
