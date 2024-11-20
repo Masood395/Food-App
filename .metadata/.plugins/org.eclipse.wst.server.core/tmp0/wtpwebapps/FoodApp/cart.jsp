@@ -218,8 +218,28 @@
 
 <header>
     <h1>Your Cart</h1>
-    <button class="back-button" onclick="window.location.href='getMenu.jsp';">Back</button>
-    <!-- Clear Cart Button in Header -->
+    <!-- <button class="back-button" onclick="history.back();">Back</button> -->
+
+		<button class="back-button" onclick="goBack()">Back</button>
+
+		<script>
+			function goBack() {
+				// Get the referring page from the browser's history
+				const previousPage = document.referrer;
+
+				// Redirect based on the previous page
+				if (previousPage.includes("getMenu.jsp")) {
+					window.location.href = "getMenu.jsp"; // Redirect to getMenu.jsp if the previous page was getMenu.jsp
+				} else if (previousPage.includes("home.jsp")) {
+					window.location.href = "home.jsp"; // Redirect to home.jsp if the previous page was home.jsp
+				} else {
+					/* window.history.back(); */ // If not getMenu.jsp or home.jsp, go back in history
+				}
+			}
+		</script>
+
+
+		<!-- Clear Cart Button in Header -->
     <form action="clearCart" method="post" style="display:inline;">
         <button type="submit" class="clear-cart-button">Clear Cart</button>
     </form>

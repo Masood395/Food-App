@@ -4,7 +4,8 @@ import java.util.List;
 import com.tap.order.Order;
 
 public interface OrderDAO {
-    void addOrder(Order order);
+    int addOrder(Order order);
+    int getMaxId();
     Order getOrder(int orderId);
     List<Order> getAllOrders();
     void updateOrder(Order order);

@@ -3,13 +3,15 @@
     <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
     <fullyQualifiedTypeName name="com.tap.menudao.MenuDAO"/>
     <fullyQualifiedTypeName name="com.tap.menudaoimpl.MenuDaoImpl"/>
-    <fullyQualifiedTypeName name="com.tap.user.User"/>
     <fullyQualifiedTypeName name="com.tap.security.secretkey.SecretKey"/>
     <fullyQualifiedTypeName name="com.tap.security.Security"/>
-    <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="com.tap.cartitem.CartItem"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
-    <fullyQualifiedTypeName name="java.lang.String"/>
     <fullyQualifiedTypeName name="com.tap.menu.Menu"/>
+    <fullyQualifiedTypeName name="com.tap.userdetails.UserDetails"/>
     <fullyQualifiedTypeName name="com.tap.order.Order"/>
+    <fullyQualifiedTypeName name="com.tap.user.User"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="java.lang.Exception"/>
 </qualifiedTypeNameHistroy>

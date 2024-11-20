@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import="com.tap.cartitem.CartItem" %>
+<%@ page import="com.tap.user.User" %>
+<%@ page import="com.tap.security.Security" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -141,7 +144,8 @@
                 </tr>
             </thead>
             <tbody>
-                <%
+                <%	
+                	User user = (User) session.getAttribute("loggedInUser");
                     Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
                     double totalAmount = 0.0;
 
@@ -193,11 +197,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
+                    <input type="email" id="email" name="email" class="form-control" value="<%= Security.decryption(user.getEmail()) %>" required>
                 </div>
                 <div class="col-md-6">
                     <label for="phone">Phone:</label>
-                    <input type="tel" id="phone" name="phone" class="form-control" required>
+                    <input type="tel" id="phone" name="phone" class="form-control" value="<%= Security.decryption(user.getMobile()) %>" required>
                 </div>
             </div>
 

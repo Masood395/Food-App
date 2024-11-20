@@ -32,7 +32,7 @@ public static String decryption(String s) {
 	}
 
 //public static void main(String[] args) {
-//	System.out.println((encryption("Masood")));
+//	System.out.println((decryption("Ƽƽƾƿǀ")));
 //}
 	
 }

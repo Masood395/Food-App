@@ -278,7 +278,7 @@
 
 <header>
     <h1>Menu Details</h1>
-    <button class="back-button" onclick="window.location.href='home.jsp';">Back</button>
+	<button class="back-button" onclick="window.location.href='home.jsp';">Back</button>
     <button class="cart-icon" onclick="window.location.href='cart.jsp';">
     <i class="fas fa-shopping-cart"></i>
     <% 

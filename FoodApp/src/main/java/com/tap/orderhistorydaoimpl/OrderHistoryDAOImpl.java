@@ -14,13 +14,14 @@ import com.tap.orderhistorydao.OrderHistoryDAO;
 
 public class OrderHistoryDAOImpl implements OrderHistoryDAO {
     private Connection connection;
+	private int x;
 
     public OrderHistoryDAOImpl() {
         connection = MyConnect.connect();;
     }
 
     @Override
-    public void addOrderHistory(OrderHistory orderHistory) {
+    public int addOrderHistory(OrderHistory orderHistory) {
         String sql = "INSERT INTO order_history (order_id, user_id, restaurant_id, total, status) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, orderHistory.getOrderId());
@@ -28,10 +29,11 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO {
             pstmt.setInt(3, orderHistory.getRestaurantId());
             pstmt.setDouble(4, orderHistory.getTotal());
             pstmt.setString(5, orderHistory.getStatus());
-            pstmt.executeUpdate();
+             x = pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return x;
     }
 
     @Override

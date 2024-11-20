@@ -14,12 +14,13 @@ import com.tap.orderdao.OrderDAO;
 
 public class OrderDAOImpl implements OrderDAO {
     private Connection connection;
+	private int x;
 
     public OrderDAOImpl() {
     	connection = MyConnect.connect();    }
 
     @Override
-    public void addOrder(Order order) {
+    public int addOrder(Order order) {
         String sql = "INSERT INTO orders (user_id, restaurant_id, menu_id, quantity, total_amount, payment_method, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, order.getUserId());
@@ -29,10 +30,12 @@ public class OrderDAOImpl implements OrderDAO {
             pstmt.setDouble(5, order.getTotalAmount());
             pstmt.setString(6, order.getPaymentMethod());
             pstmt.setString(7, order.getStatus());
-            pstmt.executeUpdate();
+            x= pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
+        return x;
     }
 
     @Override
@@ -111,4 +114,24 @@ public class OrderDAOImpl implements OrderDAO {
             e.printStackTrace();
         }
     }
+
+	@Override
+	public int getMaxId() {
+		
+		String maxId="select order_id from orders where order_id=(select max(order_id) from orders)";
+		int mid=-1;
+		try {
+			
+			ResultSet res = connection.createStatement().executeQuery(maxId);
+			if(res.next()) {
+				mid= res.getInt("order_id");
+			}
+
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return mid;
+	}
 }
