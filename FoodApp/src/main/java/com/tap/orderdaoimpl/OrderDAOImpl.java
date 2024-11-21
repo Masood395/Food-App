@@ -55,6 +55,7 @@ public class OrderDAOImpl implements OrderDAO {
                 order.setTotalAmount(rs.getDouble("total_amount"));
                 order.setPaymentMethod(rs.getString("payment_method"));
                 order.setStatus(rs.getString("status"));
+                order.setOrderDate(rs.getTimestamp("order_date").toLocalDateTime());
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -261,7 +261,7 @@ footer p {
         </a>
 
         <!-- Order History Button -->
-        <a href="orderHistory.jsp" class="order-history"> <i
+        <a href="orderHistory" class="order-history"> <i
             class="fas fa-history"></i> <!-- Order History -->
         </a>
 

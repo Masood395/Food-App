@@ -1,0 +1,63 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="com.tap.orderitemdao.OrderItemDAO" %>
+<%@ page import="com.tap.orderitemdaoimpl.OrderItemDAOImpl" %>
+<%@ page import="com.tap.orderitem.OrderItem" %>
+<%@ page import="com.tap.menudao.MenuDAO" %>
+<%@ page import="com.tap.menudaoimpl.MenuDaoImpl" %>
+<%@ page import="com.tap.menu.Menu" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+	String oid = request.getParameter("orderID");
+
+
+	/* int oid = 16; */
+	System.out.print(oid);
+	OrderItemDAO oidao = new OrderItemDAOImpl();
+	List<OrderItem> oiList = oidao.getOrderItem(20);
+	%>
+
+	<table border=1>
+
+		<tr>
+		
+			<th>Menu Name</th>
+			<th>Quantity</th>
+			<th>Sub Total</th>
+		
+		</tr>
+		
+		
+		<%
+		
+			for(OrderItem oi : oiList){
+		
+		%>
+		
+		<tr>
+			
+			<%
+			
+			MenuDAO mdao = new MenuDaoImpl();
+			Menu m = mdao.getById(oi.getMenuId());
+			
+			%>
+			<td><% out.println(m.getMenuName()); %></td>
+			<td><% out.println(oi.getQuantity()); %></td>
+			<td><% out.println(oi.getItemTotal()); %></td>
+		
+		</tr>
+		
+		<%} %>
+
+	</table>
+</body>
+</html>

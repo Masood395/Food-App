@@ -34,24 +34,27 @@ public class OrderItemDAOImpl implements OrderItemDAO {
     }
 
     @Override
-    public OrderItem getOrderItem(int orderItemId) {
-        String sql = "SELECT * FROM order_items WHERE order_item_id = ?";
+    public List<OrderItem> getOrderItem(int order_id) {
+        String sql = "SELECT * FROM order_items WHERE order_id = ?";
+        List<OrderItem> orderItems = new ArrayList<>();
         OrderItem orderItem = null;
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, orderItemId);
+            pstmt.setInt(1, order_id);
             ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 orderItem = new OrderItem();
                 orderItem.setOrderItemId(rs.getInt("order_item_id"));
                 orderItem.setOrderId(rs.getInt("order_id"));
                 orderItem.setMenuId(rs.getInt("menu_id"));
                 orderItem.setQuantity(rs.getInt("quantity"));
                 orderItem.setItemTotal(rs.getDouble("item_total"));
+                orderItems.add(orderItem);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return orderItem;
+        return orderItems;
     }
 
     @Override

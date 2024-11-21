@@ -1,0 +1,58 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="com.tap.orderitemdao.OrderItemDAO" %>
+<%@ page import="com.tap.orderitemdaoimpl.OrderItemDAOImpl" %>
+<%@ page import="com.tap.orderitem.OrderItem" %>
+<%@ page import="com.tap.menudao.MenuDAO" %>
+<%@ page import="com.tap.menudaoimpl.MenuDaoImpl" %>
+<%@ page import="com.tap.menu.Menu" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Order Details</title>
+</head>
+<body>
+	<%
+		// Retrieve the orderID from the request parameter
+		String orderIdParam = request.getParameter("orderID");
+		int oid = 0;
+		
+		// Check if the orderID is valid
+		if (orderIdParam != null && !orderIdParam.isEmpty()) {
+			oid = Integer.parseInt(orderIdParam);  // Convert to integer
+		}
+		
+		// Instantiate the OrderItemDAO to fetch the items for the order
+		OrderItemDAO oidao = new OrderItemDAOImpl();
+		List<OrderItem> oiList = oidao.getOrderItem(oid);
+	%>
+
+	<h2>Order Details</h2>
+	<table border="1">
+		<tr>
+			<th>Menu Name</th>
+			<th>Quantity</th>
+			<th>Sub Total</th>
+		</tr>
+		
+		<%
+			// Loop through the order items and display each one
+			for (OrderItem oi : oiList) {
+		%>
+		<tr>
+			<%	
+				System.out.print(oi);
+				// Fetch the menu item using its ID
+				MenuDAO mdao = new MenuDaoImpl();
+				Menu m = mdao.getById(oi.getMenuId());
+			%>
+			<td><% out.println(m.getMenuName()); %></td>
+			<td><% out.println(oi.getQuantity()); %></td>
+			<td>$<% out.println(String.format("%.2f", oi.getItemTotal())); %></td> <!-- Format subtotal -->
+		</tr>
+		<% } %>
+	</table>
+</body>
+</html>

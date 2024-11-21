@@ -6,7 +6,7 @@ import com.tap.orderhistory.OrderHistory;
 
 public interface OrderHistoryDAO {
     int addOrderHistory(OrderHistory orderHistory);
-    OrderHistory getOrderHistory(int orderHistoryId);
+    List<OrderHistory> getOrderHistory(int user_id);
     List<OrderHistory> getAllOrderHistories();
     void updateOrderHistory(OrderHistory orderHistory);
     void deleteOrderHistory(int orderHistoryId);

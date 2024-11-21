@@ -1,0 +1,178 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="com.tap.orderhistory.OrderHistory" %>
+<%@ page import="com.tap.restaurantdao.RestaurantDAO" %>
+<%@ page import="com.tap.restaurantdaoimpl.RestaurantDAOImpl" %>
+<%@ page import="com.tap.restaurant.Restaurant" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order History</title>
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.search-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    padding: 10px;
+    width: 80%;
+    max-width: 400px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.search-container button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff5722;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-container button:hover {
+    background-color: #e64a19;
+}
+
+/* Card Layout */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card h3 {
+    color: #ff5722;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #555;
+}
+
+.card .view-details {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #ff5722;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.card .view-details:hover {
+    background-color: #e64a19;
+}
+
+.no-orders {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1 style="text-align: center; color: #ff5722;">Order History</h1>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search orders...">
+        <button onclick="filterOrders()">Search</button>
+    </div>
+
+    <div class="card-grid" id="orderGrid">
+        <%
+            List<OrderHistory> orderHistoryList = (List<OrderHistory>) session.getAttribute("ohList");
+
+            if (orderHistoryList == null || orderHistoryList.isEmpty()) {
+        %>
+            <p class="no-orders">No orders found.</p>
+        <% } else { 
+            for (OrderHistory oh : orderHistoryList) {
+                RestaurantDAO rdao = new RestaurantDAOImpl();
+                Restaurant r = rdao.getById(oh.getRestaurantId());
+        %>
+        <div class="card" data-name="<%= r.getName().toLowerCase() %>" data-status="<%= oh.getStatus().toLowerCase() %>">
+            <h3>Order ID: <%= oh.getOrderId() %></h3>
+            <p><strong>Restaurant:</strong> <%= r.getName() %></p>
+            <p><strong>Status:</strong> <%= oh.getStatus() %></p>
+            <p><strong>Total:</strong> $<%= oh.getTotal() %></p>
+            <a href="orderDetails.jsp?orderId=<%= oh.getOrderId() %>" class="view-details">View Details</a>
+        </div>
+        <% } } %>
+    </div>
+</div>
+
+<script>
+// Filter orders based on search input
+function filterOrders() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+        const name = card.getAttribute('data-name');
+        const status = card.getAttribute('data-status');
+
+        if (name.includes(input) || status.includes(input)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+</script>
+</body>
+</html>

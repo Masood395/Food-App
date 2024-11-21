@@ -1,0 +1,75 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+ <%@ page import="java.util.List" %>
+ <%@ page import="com.tap.orderhistory.OrderHistory" %>
+ <%@ page import="com.tap.restaurantdao.RestaurantDAO" %>
+ <%@ page import="com.tap.restaurantdaoimpl.RestaurantDAOImpl" %>
+ <%@ page import="com.tap.restaurant.Restaurant" %>
+ <%@ page import="com.tap.orderdao.OrderDAO" %>
+ <%@ page import="com.tap.orderdaoimpl.OrderDAOImpl" %>
+ <%@ page import="com.tap.order.Order" %>
+    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+	
+		List<OrderHistory> orderHistoryList= (List<OrderHistory>)session.getAttribute("ohList");	
+	
+		
+	%>
+	
+	<table border=1>
+	
+		<tr>
+		
+			<th>Order ID</th>
+			<th>Restaurant Name</th>
+			<th>Status</th>
+			<th>Price</th>
+			<th>Date</th>
+		
+		</tr>
+		
+		<%
+		
+			for(OrderHistory oh : orderHistoryList ){
+			
+		%>
+		
+		<tr>
+		
+			<td><%out.println(oh.getOrderId()); %></td>
+			<%
+			
+				RestaurantDAO rdao=new RestaurantDAOImpl();
+				Restaurant r = rdao.getById(oh.getRestaurantId());
+
+			
+			%>
+			<td><%out.println(r.getName()); %></td>
+			<td><%out.println(oh.getStatus()); %></td>
+			<td><%out.println(oh.getTotal()); %></td>
+			
+			<%
+			
+			OrderDAO odao = new OrderDAOImpl();
+			Order o = odao.getOrder(oh.getOrderId());
+			
+			%>
+			
+			<td><%out.println(o.getOrderDate()); %></td>
+			
+		
+		</tr>
+		
+		<%} %>
+		
+	</table>
+	
+</body>
+</html>

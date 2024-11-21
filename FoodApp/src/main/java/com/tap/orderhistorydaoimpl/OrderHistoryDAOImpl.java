@@ -37,13 +37,14 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO {
     }
 
     @Override
-    public OrderHistory getOrderHistory(int orderHistoryId) {
-        String sql = "SELECT * FROM order_history WHERE order_history_id = ?";
+    public List<OrderHistory> getOrderHistory(int user_id) {
+    	List<OrderHistory> orderHistories = new ArrayList<>();
+        String sql = "SELECT * FROM order_history WHERE user_id = ?";
         OrderHistory orderHistory = null;
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, orderHistoryId);
+            pstmt.setInt(1, user_id);
             ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 orderHistory = new OrderHistory();
                 orderHistory.setOrderHistoryId(rs.getInt("order_history_id"));
                 orderHistory.setOrderId(rs.getInt("order_id"));
@@ -51,11 +52,13 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO {
                 orderHistory.setRestaurantId(rs.getInt("restaurant_id"));
                 orderHistory.setTotal(rs.getDouble("total"));
                 orderHistory.setStatus(rs.getString("status"));
+                orderHistories.add(orderHistory);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return orderHistory;
+        return orderHistories;
     }
 
     @Override

@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+ <%@ page import="java.util.List" %>
+ <%@ page import="com.tap.orderhistory.OrderHistory" %>
+    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+	
+		List<OrderHistory> orderHistoryList= (List<OrderHistory>)session.getAttribute("ohList");	
+	
+		
+	%>
+	
+	<table>
+	
+		<tr>
+		
+			<th>Order ID</th>
+			<th>Restaurant Name</th>
+			<th>Status</th>
+			<th>Price</th>
+		
+		</tr>
+		
+		<%
+		
+			for(OrderHistory oh : orderHistoryList ){
+			
+		%>
+		
+		<tr>
+		
+			<td><%oh.getOrderId(); %></td>
+			<td><%oh.getRestaurantId(); %></td>
+			<td><%oh.getStatus(); %></td>
+			<td><%oh.getTotal(); %></td>
+			
+		
+		</tr>
+		
+		<%} %>
+		
+	</table>
+	
+</body>
+</html>
